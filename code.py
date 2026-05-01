@@ -1,6 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from PIL import Image
+import os
+
+# Create output folder
+output_dir = "outputfiles"
+os.makedirs(output_dir, exist_ok=True)
 
 #Question 1 Part 1
 # Load image (convert to grayscale)
@@ -15,6 +20,7 @@ print("Image size:", M, "x", N)
 plt.imshow(img_np, cmap='gray')
 plt.title("Original Image")
 plt.axis('off')
+plt.savefig(os.path.join(output_dir, "original_image.png"), bbox_inches='tight', pad_inches=0)
 plt.show()
 
 #Question 1 Part 2
@@ -32,11 +38,13 @@ log_mag = np.log(1 + magnitude)
 plt.imshow(log_mag, cmap='gray')
 plt.title("Magnitude (Log Scale)")
 plt.axis('off')
+plt.savefig(os.path.join(output_dir, "fft_magnitude_log.png"), bbox_inches='tight', pad_inches=0)
 plt.show()
 
 plt.imshow(phase, cmap='gray')
 plt.title("Phase")
 plt.axis('off')
+plt.savefig(os.path.join(output_dir, "fft_phase.png"), bbox_inches='tight', pad_inches=0)
 plt.show()
 
 # FFTSHIFT
@@ -48,11 +56,13 @@ phase_shift = np.angle(F_shift)
 plt.imshow(mag_shift, cmap='gray')
 plt.title("Shifted Magnitude (Log)")
 plt.axis('off')
+plt.savefig(os.path.join(output_dir, "fft_shifted_magnitude.png"), bbox_inches='tight', pad_inches=0)
 plt.show()
 
 plt.imshow(phase_shift, cmap='gray')
 plt.title("Shifted Phase")
 plt.axis('off')
+plt.savefig(os.path.join(output_dir, "fft_shifted_phase.png"), bbox_inches='tight', pad_inches=0)
 plt.show()
 
 #Question 1 Part 3
@@ -62,6 +72,7 @@ downsampled = img_np[::2, ::2]
 plt.imshow(downsampled, cmap='gray')
 plt.title("Downsampled Image")
 plt.axis('off')
+plt.savefig(os.path.join(output_dir, "downsampled.png"), bbox_inches='tight', pad_inches=0)
 plt.show()
 
 print("Downsampled size:", downsampled.shape)
@@ -96,6 +107,7 @@ interp_freq = np.real(interp_freq)
 plt.imshow(interp_freq, cmap='gray')
 plt.title("Frequency Domain Interpolation")
 plt.axis('off')
+plt.savefig(os.path.join(output_dir, "interp_frequency.png"), bbox_inches='tight', pad_inches=0)
 plt.show()
 
 #Question 1 Part 5
@@ -107,6 +119,7 @@ interp_spatial = zoom(downsampled, 2, order=1)
 plt.imshow(interp_spatial, cmap='gray')
 plt.title("Spatial Interpolation (Linear)")
 plt.axis('off')
+plt.savefig(os.path.join(output_dir, "interp_spatial.png"), bbox_inches='tight', pad_inches=0)
 plt.show()
 
 #Question 1 Part 6
@@ -123,3 +136,10 @@ error_spatial = mse(img_np, interp_spatial)
 
 print("MSE (Frequency):", error_freq)
 print("MSE (Spatial):", error_spatial)
+
+# Save results
+with open(os.path.join(output_dir, "results.txt"), "w") as f:
+    f.write(f"Image size: {M} x {N}\n")
+    f.write(f"Downsampled size: {downsampled.shape}\n")
+    f.write(f"MSE (Frequency): {error_freq}\n")
+    f.write(f"MSE (Spatial): {error_spatial}\n")

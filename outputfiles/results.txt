@@ -1,0 +1,4 @@
+Image size: 426 x 640
+Downsampled size: (213, 320)
+MSE (Frequency): 264.83842545174457
+MSE (Spatial): 0.38033241356782127
