@@ -115,9 +115,14 @@ All generated images and result files are saved there.
 
 The program compares the reconstructed images against the original image using normalized Mean Squared Error:
 
-\[
-MSE = \frac{\sum (original - reconstructed)^2}{\sum original^2}
-\]
+```math
+MSE = \frac{1}{MN} \sum_{i=1}^{M} \sum_{j=1}^{N} (I(i,j) - \hat{I}(i,j))^2
+```
+
+Where:
+- `I(i,j)` is the original image pixel value
+- `Î(i,j)` is the reconstructed image pixel value
+- `M` and `N` are the image dimensions
 
 Lower MSE values indicate better reconstruction quality.
 
